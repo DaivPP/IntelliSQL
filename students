@@ -1,0 +1,30 @@
+import sqlite3
+
+# Connect to the same DB used in IntelliSQL
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+# Create STUDENTS table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS STUDENTS (
+    NAME TEXT,
+    CLASS TEXT,
+    Marks INTEGER,
+    Company TEXT
+)
+""")
+
+# Optionally insert dummy data
+sample_data = [
+    ("Alice", "MCom", 85, "TCS"),
+    ("Bob", "BCom", 78, "Infosys"),
+    ("Charlie", "MCom", 92, "Wipro"),
+    ("David", "MBA", 88, "Google")
+]
+cursor.executemany("INSERT INTO STUDENTS VALUES (?, ?, ?, ?)", sample_data)
+
+# Commit & close
+conn.commit()
+conn.close()
+
+print("STUDENTS table created and populated successfully.")
